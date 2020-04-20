@@ -1,0 +1,10 @@
+# https://stackoverflow.com/questions/4250063/how-to-gitignore-all-files-folder-in-a-folder-but-not-the-folder-itself
+#put this .gitignore into the folder, then git add .gitignore
+
+*
+*/
+!.gitignore
+
+#The * line tells git to ignore all files in the folder, but !.gitignore tells git to still include the .gitignore file. This way, your local repository and any other clones of the repository all get both the empty folder and the .gitignore it needs.
+#
+#Edit: May be obvious but also add */ to the git ignore to also ignore sub folders.

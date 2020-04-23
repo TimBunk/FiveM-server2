@@ -20,5 +20,6 @@ ui_page 'html/main.html'
 files {
     'html/main.html',
     'html/index.css',
-    'html/script.js'
+    'html/script.js',
+    'html/jquery-3.5.0.js'
 }

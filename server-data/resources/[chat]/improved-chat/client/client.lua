@@ -1,4 +1,6 @@
+RegisterNetEvent("cs:improved-chat:addMessage")
 
+local isPauseMenuActive = false
 
 function OpenChat()
   SetNuiFocus(true, false)
@@ -7,14 +9,28 @@ function OpenChat()
   });
 end
 
+function HideChat()
+  SendNUIMessage({
+      type = 'close'
+  });
+end
+
 function SendMessage(msg)
   SendNUIMessage({
       type = 'message',
       message = msg
   });
+  FadeOut(msg)
 end
 
-RegisterNetEvent("cs:improved-chat:addMessage")
+function FadeOut(msg)
+  local miliseconds = 3000 + string.len(msg) * 50
+  SendNUIMessage({
+      type = 'fadeOut',
+      delay = miliseconds
+  });
+end
+
 AddEventHandler("cs:improved-chat:addMessage", function(message)
   SendMessage(message)
 end)
@@ -43,8 +59,16 @@ Citizen.CreateThread(function()
   SetNuiFocus(false, false)
 
   while true do
-    if IsControlJustPressed(0, 245) then
-      OpenChat()
+
+    if not IsPauseMenuActive() then
+      isPauseMenuActive = false
+      -- If the users pressed T then open the chat
+      if IsControlJustPressed(0, 245) then
+        OpenChat()
+      end
+    elseif isPauseMenuActive == false then
+      isPauseMenuActive = true
+      --HideChat()
     end
     Citizen.Wait(0)
   end

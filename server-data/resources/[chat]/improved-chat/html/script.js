@@ -1,6 +1,30 @@
 var chatArea = document.getElementById("chatArea");
 var input = document.getElementById("input");
 NeverLoseFocus(input);
+CloseChat();
+
+function OpenChat() {
+  // Stop the fadeout animation
+  $("#chatBackground").stop(true, true);
+  // Show the chat
+  $("#chatBackground").show();
+}
+
+function CloseChat() {
+  // Close the chat and chat input
+  $("#chatBackground").hide();
+  CloseChatInput();
+}
+
+function OpenChatInput() {
+  // Open the chat input and focus on it
+  $("#chatForm").show();
+  input.focus();
+}
+
+function CloseChatInput() {
+  $("#chatForm").hide();
+}
 
 function NeverLoseFocus(element) {
   element.focus();
@@ -28,6 +52,7 @@ function AddMessage(message) {
 }
 
 function CloseNUI(_message) {
+  // Send the message to the client.lua script
   fetch(`https://${GetParentResourceName()}/CloseNUI`, {
       method: 'POST',
       headers: {
@@ -36,6 +61,12 @@ function CloseNUI(_message) {
       body: JSON.stringify({
           message: _message
       })
+  });
+}
+
+function FadeOut(delay) {
+  $(document).ready(function() {
+    $("#chatBackground").fadeOut(delay);
   });
 }
 
@@ -48,29 +79,32 @@ document.onkeypress = function (data) {
     inputValue = inputValue.replace(/\s{2,}/g, ' ')
     // Clear the input.value
     input.value = "";
-    // Return if the input is empty
-    /*if (inputValue == "") {
-      // TODO: Some error message
+    // Close the chat input
+    CloseChatInput();
+    // if message is empty fade the chat away
+    if (inputValue == "") {
+      CloseChat();
     }
-    // If the input has more then a 100 charachters dont post it
-    else if (inputValue.length > 100) {
-      // TODO: Some error message
-    }
-    else {
-      // Send the message
-      AddMessage(inputValue);
-    }*/
-    // Close the NUI
+    // Close the NUI and send the input to lua
     CloseNUI(inputValue);
   }
 };
 
 window.addEventListener('message', (event) => {
-    if (event.data.type === 'open') {
-        //FocusInput();
-    }
-    else if (event.data.type === 'message') {
-      console.log("Message received: " + event.data.message);
+  switch (event.data.type) {
+    case 'open':
+      OpenChat();
+      OpenChatInput();
+      break;
+    case 'close':
+      CloseChat();
+      break;
+    case 'message':
       AddMessage(event.data.message);
-    }
+      break;
+    case 'fadeOut':
+      OpenChat();
+      FadeOut(event.data.delay);
+      break;
+  }
 });

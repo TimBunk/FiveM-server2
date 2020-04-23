@@ -15,10 +15,12 @@ function HideChat()
   });
 end
 
-function SendMessage(msg)
+function SendMessage(msg, ctgry)
+  print("SEND")
   SendNUIMessage({
       type = 'message',
-      message = msg
+      message = msg,
+      category = ctgry
   });
   FadeOut(msg)
 end
@@ -31,26 +33,21 @@ function FadeOut(msg)
   });
 end
 
-AddEventHandler("cs:improved-chat:addMessage", function(message)
-  SendMessage(message)
+AddEventHandler("cs:improved-chat:addMessage", function(message, ctgry)
+  SendMessage(message, ctgry)
 end)
 
 RegisterNUICallback('CloseNUI', function(data)
     -- POST data gets parsed as JSON automatically
     local message = data.message
-    if message == "" then
-      -- TODO: Some error message
-      print("empty message")
-    -- If the input has more then a 100 charachters dont post it
-    elseif string.len(message) > 100 then
-      -- TODO: Some error message
-      print("message too long")
-    else
-      -- Send the message
-      print("Send message: " .. message)
-      TriggerServerEvent("ss:improved-chat:sendMessage", message)
+    if message ~= "" then
+      -- If the input has more then a 100 charachters give a error
+      if string.len(message) > 100 then
+        SendMessage("Message is too long", "error")
+      else
+        TriggerServerEvent("ss:improved-chat:sendMessage", message)
+      end
     end
-
     SetNuiFocus(false, false)
 end)
 

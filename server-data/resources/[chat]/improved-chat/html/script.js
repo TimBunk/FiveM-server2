@@ -35,10 +35,19 @@ function NeverLoseFocus(element) {
   }
 }
 
-function AddMessage(message) {
+function AddMessage(message, category) {
   // Create a new DIV with as class message
   var node = document.createElement("DIV");
-  node.className = "message"
+  node.className = "message";
+  // Set the color
+  switch (category) {
+    case 'default':
+      node.style.color = "#FFFFFF";
+      break;
+    case 'error':
+      node.style.color = "#FF0000";
+      break;
+  }
   // change the innerHTML to the message we want to display
   node.innerHTML = message;
   // Add the message to the chat
@@ -48,6 +57,17 @@ function AddMessage(message) {
   // Whenever there are more then 15 messages delete the first one
   if (chatArea.children.length > 15) {
     chatArea.children[0].remove();
+  }
+}
+
+function AddColor(node, category) {
+  switch (category) {
+    case 'default':
+      node.style.color = "#FFFFFF";
+      break;
+    case 'error':
+      node.style.color = "#FF0000";
+      break;
   }
 }
 
@@ -83,7 +103,7 @@ document.onkeypress = function (data) {
     CloseChatInput();
     // if message is empty fade the chat away
     if (inputValue == "") {
-      CloseChat();
+      FadeOut(3000);
     }
     // Close the NUI and send the input to lua
     CloseNUI(inputValue);
@@ -100,7 +120,7 @@ window.addEventListener('message', (event) => {
       CloseChat();
       break;
     case 'message':
-      AddMessage(event.data.message);
+      AddMessage(event.data.message, event.data.category);
       break;
     case 'fadeOut':
       OpenChat();

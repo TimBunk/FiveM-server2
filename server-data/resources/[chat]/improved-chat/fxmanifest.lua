@@ -6,7 +6,8 @@ description 'Improved chat'
 version '1.0.0'
 
 client_scripts {
-    'client/client.lua'
+    'client/client.lua',
+    'client/commands.lua'
 }
 
 server_scripts {

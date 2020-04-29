@@ -9,20 +9,22 @@ RegisterNUICallback('ReadyNUI', function(data)
 end)
 
 AddEventHandler("cs:improved-chat:addCommand", function(commandName, desc, argumentDescriptions, callback)
-
+  -- Wait for the nui to be ready
   while nuiReady == false do
     Citizen.Wait(0)
   end
-
+  -- Make commandName lower case
+  commandName = string.lower(commandName)
   commands[commandName] = callback
 
+  -- Prepare the values for display in html
   local v = ("/" .. commandName)
   local l = v
   argumentDescriptions = argumentDescriptions or {}
   for i=1,#argumentDescriptions do
     l = (l .. " " .. argumentDescriptions[i][1])
   end
-
+  -- Send the values to the javascript
   SendNUIMessage({
       type = 'command',
       value = v,

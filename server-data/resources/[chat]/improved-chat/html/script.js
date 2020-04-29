@@ -58,7 +58,7 @@ function AddMessage(message, category) {
     chatArea.children[0].remove();
   }
   // Fade the chat away after receiving the message
-  FadeOut(3000);
+  FadeOut();
 }
 
 function AddColor(node, category) {
@@ -85,9 +85,9 @@ function CloseNUI(_message) {
   });
 }
 
-function FadeOut(delay) {
+function FadeOut() {
   $(document).ready(function() {
-    $("#chatBackground").fadeOut(delay);
+    $("#chatBackground").fadeOut(fadeOutDuration);
   });
 }
 
@@ -106,14 +106,13 @@ document.onkeypress = function (data) {
     /*if (inputValue == "") {
       FadeOut(3000);
     }*/
-    FadeOut(3000);
+    FadeOut();
     // Close the NUI and send the input to lua
     CloseNUI(inputValue);
   }
 };
 
 window.addEventListener('message', (event) => {
-  console.log("HELLLL");
   switch (event.data.type) {
     case 'open':
       OpenChat();
@@ -123,14 +122,15 @@ window.addEventListener('message', (event) => {
       CloseChat();
       break;
     case 'message':
+      OpenChat();
+      FadeOut();
       AddMessage(event.data.message, event.data.category);
       break;
     case 'fadeOut':
       OpenChat();
-      FadeOut(event.data.delay);
+      FadeOut();
       break;
     case 'command':
-    console.log("HELLLL");
       AddCommand(event.data);
       break;
   }
@@ -179,8 +179,6 @@ $( function() {
     select: function( event, ui ) {
       $( "#input" ).val( ui.item.value );
       $( "#command-id" ).val( ui.item.value );
-      //$( "#inputHelp" ).val(ui.item.label);
-      //console.log("Select");
       DisplayItem(ui.item);
       return false;
     }
@@ -200,23 +198,32 @@ input.addEventListener('input', InputChange);
 
 function InputChange() {
   if (displayCommand === true) {
-
+    // Get the current input value
     var inputValue = $("#input").val();
-    inputValue = inputValue.replace(/\s{2,}/g, ' ')// Removes any extra spaces between words
+    // Removes any extra spaces between words
+    inputValue = inputValue.replace(/\s{2,}/g, ' ')
+    // Create a array of the input value
     var inputValues = inputValue.split(" ");
+    // Clear the arg text
     $("#arg").text("");
+    // Check if the typed command is still in the input value
     if (inputValues[0] === item.value) {
+      // Set the label text
       var labelText = item.value;
       for (var i = 0; i < item.args.length; i++) {
+        // Highlight the current argument the user is typing
         if (inputValues.length-2 == i) {
           labelText += (" <text style='color: rgba(128, 255, 128, 1.0);'><b>" + item.args[i][0] + "</b></text>");
           $("#arg").text(item.args[i][1]);
         }
+        // Set the argument in the label
         else { labelText += (" " + item.args[i][0]); }
       }
+      // Apply the label
       $("#label").html(labelText);
     }
     else {
+      // Disable the information about the command
       displayCommand = false;
       $("#commandArgs").hide();
     }
@@ -225,6 +232,7 @@ function InputChange() {
 }
 
 function DisplayItem(_item) {
+  // Display the information of a command
   item = _item;
   displayCommand = true;
   $("#commandArgs").show();

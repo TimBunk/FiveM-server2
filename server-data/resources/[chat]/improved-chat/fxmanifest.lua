@@ -6,6 +6,7 @@ description 'Improved chat'
 version '1.0.0'
 
 client_scripts {
+    'client/config.lua',
     'client/client.lua',
     'client/commands.lua'
 }
@@ -21,6 +22,7 @@ ui_page 'html/main.html'
 files {
     'html/main.html',
     'html/index.css',
+    'html/config.js',
     'html/script.js',
     'html/jquery-3.5.0.js',
     'html/jquery-ui.js',

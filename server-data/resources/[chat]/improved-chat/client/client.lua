@@ -16,7 +16,6 @@ function HideChat()
 end
 
 function SendMessage(msg, ctgry)
-  print("SEND")
   SendNUIMessage({
       type = 'message',
       message = msg,
@@ -36,7 +35,7 @@ RegisterNUICallback('CloseNUI', function(data)
       if string.sub(message, 1, 1) == "/" then
         TriggerEvent("cs:improved-chat:executeCommand", message)
       -- If the input has more then a 100 charachters give a error
-      elseif string.len(message) > 100 then
+      elseif string.len(message) > Config.maxLengthMessage then
         SendMessage("Message is too long", "error")
       else
         TriggerServerEvent("ss:improved-chat:sendMessage", message)
@@ -59,7 +58,6 @@ Citizen.CreateThread(function()
       end
     elseif isPauseMenuActive == false then
       isPauseMenuActive = true
-      --HideChat()
     end
     Citizen.Wait(0)
   end

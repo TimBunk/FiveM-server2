@@ -43,8 +43,7 @@ AddEventHandler("cs:improved-chat:executeCommand", function(message)
     -- Split the command in to a table
     local args = {}
     for i in string.gmatch(c, "%S+") do
-      print("Arg: " .. i)
-       table.insert(args, i)
+      table.insert(args, i)
     end
     -- Get the callback of the command and remove the first name of the command from the table
     local cb = commands[table.remove(args, 1)]

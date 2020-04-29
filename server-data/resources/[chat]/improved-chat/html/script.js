@@ -109,6 +109,7 @@ document.onkeypress = function (data) {
     FadeOut();
     // Close the NUI and send the input to lua
     CloseNUI(inputValue);
+    DisableItem();
   }
 };
 
@@ -197,13 +198,23 @@ var item = null;
 input.addEventListener('input', InputChange);
 
 function InputChange() {
+  // Get the current input value
+  var inputValue = $("#input").val();
+  // Removes any extra spaces between words
+  inputValue = inputValue.replace(/\s{2,}/g, ' ')
+  // Create a array of the input value
+  var inputValues = inputValue.split(" ");
+  // If no autocomplete items were selected find one
+  if (item == null && inputValues.length > 1 && inputValues[0].charAt(0) == '/') {
+    item = commands.find(function(element) {
+      return element.value == inputValues[0];
+    });
+    $( "#input" ).autocomplete( "close" );
+    DisplayItem(item);
+    return;
+  }
+
   if (displayCommand === true) {
-    // Get the current input value
-    var inputValue = $("#input").val();
-    // Removes any extra spaces between words
-    inputValue = inputValue.replace(/\s{2,}/g, ' ')
-    // Create a array of the input value
-    var inputValues = inputValue.split(" ");
     // Clear the arg text
     $("#arg").text("");
     // Check if the typed command is still in the input value
@@ -223,9 +234,7 @@ function InputChange() {
       $("#label").html(labelText);
     }
     else {
-      // Disable the information about the command
-      displayCommand = false;
-      $("#commandArgs").hide();
+      DisableItem();
     }
 
   }
@@ -239,6 +248,13 @@ function DisplayItem(_item) {
   $("#description").text(item.desc);
   $("#label").text(item.label);
   InputChange();
+}
+
+function DisableItem() {
+  // Disable the information about the command
+  displayCommand = false;
+  item = null;
+  $("#commandArgs").hide();
 }
 
 // When the document is ready notify the improved-chat

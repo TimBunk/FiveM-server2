@@ -102,8 +102,8 @@ html, body {
 .ui-tooltip {
     background: #4a4a4a;
     color: #96f226;
-    border: 2px solid #454545;
-    border-radius: 0px;
+    /*border: 2px solid #454545;
+    border-radius: 0px;*/
     box-shadow: 0 0
 }
 .ui-autocomplete {
@@ -124,6 +124,6 @@ html, body {
 }
 
 .ui-menu-item {
-  border-color: rgba(255, 255, 255, 1.0);
-  border-radius: 2px;
+  /*border-color: rgba(255, 255, 255, 1.0);
+  border-radius: 2px;*/
 }

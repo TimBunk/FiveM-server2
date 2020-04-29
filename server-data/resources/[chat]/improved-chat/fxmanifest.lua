@@ -22,5 +22,7 @@ files {
     'html/main.html',
     'html/index.css',
     'html/script.js',
-    'html/jquery-3.5.0.js'
+    'html/jquery-3.5.0.js',
+    'html/jquery-ui.js',
+    'html/jquery-ui.css'
 }

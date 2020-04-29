@@ -22,15 +22,6 @@ function SendMessage(msg, ctgry)
       message = msg,
       category = ctgry
   });
-  FadeOut(msg)
-end
-
-function FadeOut(msg)
-  local miliseconds = 3000 + string.len(msg) * 50
-  SendNUIMessage({
-      type = 'fadeOut',
-      delay = miliseconds
-  });
 end
 
 AddEventHandler("cs:improved-chat:addMessage", function(message, ctgry)
@@ -41,8 +32,11 @@ RegisterNUICallback('CloseNUI', function(data)
     -- POST data gets parsed as JSON automatically
     local message = data.message
     if message ~= "" then
+      -- If the message starts with a '/' that means the user is trying to execute a command
+      if string.sub(message, 1, 1) == "/" then
+        TriggerEvent("cs:improved-chat:executeCommand", message)
       -- If the input has more then a 100 charachters give a error
-      if string.len(message) > 100 then
+      elseif string.len(message) > 100 then
         SendMessage("Message is too long", "error")
       else
         TriggerServerEvent("ss:improved-chat:sendMessage", message)

@@ -3,6 +3,7 @@
 
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="jquery-ui.css">
     <link rel="stylesheet" href="index.css">
   </head>
 
@@ -13,12 +14,24 @@
       </div>
     </div>
     <div id="chatForm">
-        <input id="input" placeholder="Type message" spellcheck="false"></input>
+        <div id="inputWrapper">
+          <input id="inputHelp" spellcheck="false" value="">
+          <input id="input"  spellcheck="false">
+        </div>
+        <div id="commandArgs">
+          <div id="description"> Description </div>
+          <div id="label"> Label </div>
+          <div id="arg"> Arg </div>
+        </div>
+
+        <input type="hidden" id="command-id">
+        <p id="command-description"></p>
     </div>
   </body>
 
   <footer>
     <script src="jquery-3.5.0.js"></script>
+    <script src="jquery-ui.js"></script>
     <script type="text/javascript" src="script.js"></script>
   </footer>
 

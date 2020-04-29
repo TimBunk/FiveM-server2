@@ -18,10 +18,11 @@ html, body {
   margin: 1%;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }
 
-#chatForm {
+/*#chatForm {
   margin-left: 0.5%;
   margin-top: 0.0%;
   width: 30%;
@@ -31,22 +32,98 @@ html, body {
 
   display: flex;
   align-items: center; /* align vertical */
+/*}*/
+
+#command-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+#command-description {
+  margin: 0;
+  padding: 0;
+}
+
+#inputWrapper {
+  position: relative;
+  margin-left: 0.5%;
+  width: 30%;
+  height: 3%;
+  background-color: rgba(30, 30, 255, 0.4);
+
+  /*display: flex;
+  align-items: center; /* align vertical */
+  float: left;
+}
+
+#inputHelp {
+  /*position: absolute;*/
+  left:0;
+  top:0;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 125%;
+  width: 100%;
+  height: 100%;
+  color: rgba(0, 255, 0, 1.0);
+  z-index: 1;
 }
 
 #input {
+  position: absolute;
+  left:0;
+  top:0;
   color: rgba(255, 255, 255, 1.0);
   background: none;
   border: none;
   outline: none;
+  font-size: 125%;
   width: 100%;
   height: 100%;
-  font-size: 125%;
+  z-index: 2;
 }
 
 #input::placeholder {
   color: rgba(200, 200, 200, 1.0);
 }
 
-#message {
+#commandArgs {
+  margin-left: 0.5%;
+  width: 30%;
+  background-color: rgba(50, 50, 255, 0.3);
+  font-size: 125%;
+  color: rgba(255, 255, 255, 1.0);
+}
 
+
+
+.ui-tooltip {
+    background: #4a4a4a;
+    color: #96f226;
+    border: 2px solid #454545;
+    border-radius: 0px;
+    box-shadow: 0 0
+}
+.ui-autocomplete {
+    background: rgba(30, 30, 255, 0.4);
+    color: rgba(255, 255, 255, 1.0);
+
+    width: 30%;
+    /*border-radius: 0px;*/
+}
+.ui-autocomplete.source:hover {
+    background: #454545;
+}
+
+.ui-menu .ui-menu-item a {
+    background:red;
+    height:10px;
+    font-size:8px;
+}
+
+.ui-menu-item {
+  border-color: rgba(255, 255, 255, 1.0);
+  border-radius: 2px;
 }

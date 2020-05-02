@@ -154,6 +154,14 @@ var commands = [
 
 function AddCommand(data) {
   console.log("Adding command: " + data.value);
+  // Delete the command if it already exists
+  for (var i = 0; i < commands.length; i++) {
+    if (commands[i].value == data.value) {
+      commands.splice(i, 1)
+      break;
+    }
+  }
+  // Push the command
   commands.push(
     {
       value: data.value,

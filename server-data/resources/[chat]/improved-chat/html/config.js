@@ -1,1 +1,4 @@
-var fadeOutDuration = 4500;
+var config = {
+  fadeOutDuration: 4500,
+  historyQueueMax: 20
+};

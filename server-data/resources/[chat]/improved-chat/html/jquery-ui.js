@@ -5671,14 +5671,14 @@ $.widget( "ui.autocomplete", {
 					suppressKeyPress = true;
 					this._move( "nextPage", event );
 					break;
-				case keyCode.UP:
+				/*case keyCode.UP:
 					suppressKeyPress = true;
 					this._keyEvent( "previous", event );
 					break;
 				case keyCode.DOWN:
 					suppressKeyPress = true;
 					this._keyEvent( "next", event );
-					break;
+					break;*/
 				case keyCode.ENTER:
 
 					// when menu is open and has focus
